@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-#import dj_database_url
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -86,7 +86,7 @@ DATABASES = {
     }
 }
 
-#DATABASES['default']=dj_database_url.parse('')
+DATABASES['default']=dj_database_url.parse('postgresql://django_bookmyshow_64nl_user:lpqokHP7HwoUCCJOt4ZElafHRd0BOWws@dpg-d0qlqdbipnbc73eg9dtg-a.oregon-postgres.render.com/django_bookmyshow_64nl')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
