@@ -1,12 +1,17 @@
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from .forms import UserRegistrationForm, UserUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.decorators import login_required
+from movies.models import Movie , Booking
 
+
+def home(request):
+    movies= Movie.objects.all()
+    return render(request,'home.html',{'movies':movies})
 def register(request):
     if request.method == 'POST':
-        form=UserRegistrationForm(request.POST)
+        form=UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             username=form.cleaned_data.get('username')
@@ -15,11 +20,11 @@ def register(request):
             login(request,user)
             return redirect('profile')
     else:
-        form=UserRegistrationForm()
-    return render(request,'users/register.html',{'forms':form})
+        form=UserRegisterForm()
+    return render(request,'users/register.html',{'form':form})
 
 def login_view(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         form=AuthenticationForm(request,data=request.POST)
         if form.is_valid():
             user=form.get_user()
@@ -27,9 +32,11 @@ def login_view(request):
             return redirect('/')
     else:
         form=AuthenticationForm()
-    return render(request,'users/login.html',{'forms':form})
+    return render(request,'users/login.html',{'form':form})
+
 @login_required
 def profile(request):
+    bookings= Booking.objects.filter(user=request.user)
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         if u_form.is_valid():
@@ -38,7 +45,7 @@ def profile(request):
     else:
         u_form = UserUpdateForm(instance=request.user)
 
-    return render(request, 'users/profile.html', {'u_form': u_form})
+    return render(request, 'users/profile.html', {'u_form': u_form,'bookings':bookings})
 
 @login_required
 def reset_password(request):

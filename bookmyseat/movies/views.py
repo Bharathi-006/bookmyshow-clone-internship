@@ -16,6 +16,14 @@ def theater_list(request,movie_id):
     theater=Theater.objects.filter(movie=movie)
     return render(request,'movies/theater_list.html',{'movie':movie,'theaters':theater})
 
+def movie_timing(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+    show_timing = Theater.objects.filter(movie=movie).order_by('time')  # Here using Theater model as showtime
+    return render(request, 'movies/movie_timing.html', {
+        'movie': movie,
+        'show_timing': show_timing
+    })
+
 
 
 @login_required(login_url='/login/')
