@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import movie_list, movie_timing, theater_list, book_seats, reservation_payment_page, timeout_page
-
+from . import api_views
 urlpatterns = [
+    path('api/available-seats/<int:theater_id>/', api_views.available_seats, name='available_seats_api'),
     path('', movie_list, name='movie_list'),
     path('movie/<int:movie_id>/', movie_timing, name='movie_timing'),
     path('movie/<int:movie_id>/theaters/', theater_list, name='theater_list'),

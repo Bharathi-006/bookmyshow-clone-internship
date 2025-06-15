@@ -35,6 +35,8 @@ def movie_timing(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     trailer_id = get_movie_youtube_id(movie.trailer_url)
     show_timing = Theater.objects.filter(movie=movie).order_by('time')  # Here using Theater model as showtime
+    today=timezone.now().date()
+    show_timing=Theater.objects.filter(movie=movie,time__date__gte=today).order_by('time')
     return render(request, 'movies/movie_timing.html', {
         'movie': movie,
         'show_timing': show_timing,
