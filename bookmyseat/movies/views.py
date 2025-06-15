@@ -50,7 +50,7 @@ def book_seats(request,theater_id):
     theaters=get_object_or_404(Theater,id=theater_id)
     seats=Seat.objects.filter(theater=theaters)
     def sorting_seats(seat):
-        return [int(text) if text.isdigit() else text.lower() for text in re.split('(\d+)', seat.seat_number)]
+        return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', seat.seat_number)]
     seats = sorted(seats, key=sorting_seats)
     for seat in seats:
         if seat.is_seat_reserved and seat.seat_reserved_at:
