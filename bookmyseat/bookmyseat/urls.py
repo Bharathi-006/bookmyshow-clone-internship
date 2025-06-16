@@ -24,7 +24,7 @@ urlpatterns = [
     path('', include('users.urls')),         
     path('users/', include('users.urls')),   
     path('movies/', include('movies.urls')),
-    path('',include('https://bookmyshow-clone-internship.vercel.app/.urls')),
+    
 ]
 
 if settings.DEBUG:
